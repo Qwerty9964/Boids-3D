@@ -1,9 +1,9 @@
-world_size=24
+world_size=30
 
 perception_distance=8.5
 cohesion_force=0.015
 alignment_force=0.009
-base_speed=0.165
+base_speed=0.16
 
 
 
@@ -22,6 +22,7 @@ AFRAME.registerComponent('boid-move',{
         )
 
         this.direction.normalize()
+        console.log(this.direction)
         this.speed=base_speed
         this.velocity=this.direction.clone().multiplyScalar(this.speed)
         this.speed_noise=0
@@ -45,6 +46,14 @@ AFRAME.registerComponent('boid-control',{
     tick: function() {
         this.scene.querySelectorAll('.boid').forEach((boid) => {
 
+            let horizontal = Math.sqrt(boid.components["boid-move"].direction.z ** 2 + boid.components["boid-move"].direction.x ** 2 )
+
+            let roty = Math.atan2(boid.components["boid-move"].direction.x, boid.components["boid-move"].direction.z)
+            let rotz = Math.atan2(boid.components["boid-move"].direction.y, horizontal)
+
+            boid.object3D.rotation.y = roty
+            boid.object3D.rotation.x = -1*(rotz)
+
 
             if (boid.object3D.position.x >= world_size || boid.object3D.position.x <= (world_size*(-1))){
                 boid.components["boid-move"].direction.x *= -1
@@ -65,7 +74,7 @@ AFRAME.registerComponent('boid-control',{
             boid.components["boid-move"].speed = Math.max(boid.components["boid-move"].speed, 0.14)
 
 
-            boid.components["boid-move"].speed+=(base_speed-boid.components["boid-move"].speed)*0.001
+            boid.components["boid-move"].speed+=(base_speed-boid.components["boid-move"].speed)*0.003
 
             let boid_neighbors=0
             let center = new THREE.Vector3(0,0,0)
@@ -134,7 +143,7 @@ AFRAME.registerComponent('boid-control',{
 
        
 
-        //Seperation above
+        
         
     }
 })
