@@ -31,6 +31,7 @@ AFRAME.registerComponent('boid-move',{
 
     tick: function() {
         this.direction.normalize()
+        this.speed=base_speed
         this.speed+=this.speed_noise
         this.velocity=this.direction.clone().multiplyScalar(this.speed)
         this.el.object3D.position.add(this.velocity)
@@ -55,6 +56,10 @@ AFRAME.registerComponent('boid-control',{
 
         document.getElementById("alignment").addEventListener("input", function(e) {
             alignment_force = parseFloat(e.target.value)
+        })
+
+        document.getElementById("speed").addEventListener("input", function(e) {
+            base_speed = parseFloat(e.target.value)
         })
 
         document.getElementById("fps").textContent = Math.round(fps);
@@ -88,11 +93,7 @@ AFRAME.registerComponent('boid-control',{
 
 
             boid.components["boid-move"].speed_noise += random_position_generate(0.5)*0.001
-            boid.components["boid-move"].speed = Math.min(boid.components["boid-move"].speed, 0.18)
-            boid.components["boid-move"].speed = Math.max(boid.components["boid-move"].speed, 0.14)
 
-
-            boid.components["boid-move"].speed+=(base_speed-boid.components["boid-move"].speed)*0.003
 
             let boid_neighbors=0
             let center = new THREE.Vector3(0,0,0)
