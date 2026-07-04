@@ -43,7 +43,25 @@ AFRAME.registerComponent('boid-control',{
         this.scene=document.querySelector('a-scene')
     },
 
-    tick: function() {
+    tick: function(time, timedelta) {
+
+        let fps = 1000/timedelta
+
+        //ui
+
+        document.getElementById("cohesion").addEventListener("input", function(e) {
+            cohesion_force = parseFloat(e.target.value)
+        })
+
+        document.getElementById("alignment").addEventListener("input", function(e) {
+            alignment_force = parseFloat(e.target.value)
+        })
+
+        document.getElementById("fps").textContent = Math.round(fps);
+
+
+
+
         this.scene.querySelectorAll('.boid').forEach((boid) => {
 
             let horizontal = Math.sqrt(boid.components["boid-move"].direction.z ** 2 + boid.components["boid-move"].direction.x ** 2 )

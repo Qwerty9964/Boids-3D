@@ -3,9 +3,32 @@
 <head>
   <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
   <script src="boids.js"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+
+    <div id="controls">
+
+        <h1 id="controls_heading">Controls</h1>
+
+        <h2>Cohesion</h2>
+        <input id ="cohesion" type="range" min="0" max="0.05" step="0.001" value="0.015">
+
+        <h2>Alignment</h2>
+        <input id ="alignment" type="range" min="0" max="0.05" step="0.001" value="0.009">
+
+        <h2>Fps</h2>
+        <p id="fps">0</p>
+
+
+    </div>
+
+
+
+
+
+
     <a-scene boid-control>
         <a-sky></a-sky>
 
